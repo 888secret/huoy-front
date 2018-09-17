@@ -9,6 +9,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : config.build.env
@@ -94,7 +96,14 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+	new SWPrecacheWebpackPlugin({
+		cacheId: 'my-vue-app',
+		filename: 'service-worker.js',
+		staticFileGlobs: ['dist/**/*.{js,html,css}'],
+		minify: true,
+		stripPrefix: 'dist/'
+	})
   ]
 })
 

@@ -5,13 +5,16 @@
             <header class="section_title">数据库表列表</header>
             <div class="search-content">
                 <el-row :gutter="20">
-                    <el-col :span="20">
+                    <el-col :span="18">
                         <el-input placeholder="请输入表名称" v-model="name" class="input-with-select">
                             <el-button slot="append" icon="search" @click="search"></el-button>
                         </el-input>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="3">
                         <el-button type="primary" @click="getTableSelection">生成代码</el-button>
+                    </el-col>
+                    <el-col :span="3">
+                        <el-button type="primary" @click="testConnect">连接数据库</el-button>
                     </el-col>
                     
                 </el-row>
@@ -52,7 +55,7 @@
             </div>
             
             <el-dialog
-              title="提示"
+              title="代码自动生成"
               :visible.sync="dialogVisible"
               width="30%"
               :before-close="handleClose">
@@ -77,6 +80,37 @@
                   <el-button type="primary" @click="createCode">确定</el-button>
               </span>
             </el-dialog>
+
+            <el-dialog
+              title="数据库连接测试"
+              :visible.sync="dialogVisible2"
+              size="mini">
+              <el-form ref="form" :model="dbtest" label-width="120px">
+                  <el-form-item label="数据库类型">
+                      <el-select v-model="dbtest.dbtype" clearable placeholder="请选择">
+                          <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                      </el-select>
+                  </el-form-item>
+                  <el-form-item label="URL">
+                      <el-input v-model="dbtest.url"></el-input>
+                  </el-form-item>
+                  <el-form-item label="用户名">
+                      <el-input v-model="dbtest.username"></el-input>
+                  </el-form-item>
+                  <el-form-item label="密码">
+                      <el-input v-model="dbtest.password"></el-input>
+                  </el-form-item>
+              </el-form>
+              <span slot="footer" class="dialog-footer">
+                  <el-button >测试连接</el-button>
+                  <el-button type="primary">确定</el-button>
+              </span>
+            </el-dialog>
         </section>
     </div>
 </template>
@@ -93,13 +127,32 @@ export default {
             pageNum: 1,
             name: '',
             dialogVisible:false,
+            dialogVisible2:false,
             form:{
                 tableName:null,
                 tablePrefix:null,
                 outputDir:null,
                 moduleName:null
             },
-            multipleSelection:[]
+            multipleSelection:[],
+            options:[{
+                value:'oracle',
+                label:'oracle'
+            },{
+                value:'mysql',
+                label:'mysql'
+            },{
+                value:'sqlserver',
+                label:'sqlserver'
+            }],
+            dbtest:{
+                dbtype:'',
+                url:'',
+                username:'',
+                password:''
+
+            }
+
         }
     },
     components:{
@@ -139,8 +192,10 @@ export default {
               .catch(_ => {});
         },
         getTableSelection(){
-
             this.dialogVisible=true;
+        },
+        testConnect(){
+            this.dialogVisible2=true;
         },
         handleSelectionChange(val){
             this.multipleSelection=val;
