@@ -117,7 +117,6 @@ export default {
 
     },
     mounted(){
-        alert('dsdsdd')
         Split(['#one', '#two'], {
             sizes: [25, 75],
             minSize: 200
@@ -192,7 +191,7 @@ export default {
 }
  
 .split, .gutter.gutter-horizontal {
-  height: 100%;
+
   float: left;
 } 
 </style>
