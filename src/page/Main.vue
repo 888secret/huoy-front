@@ -4,124 +4,42 @@
             <el-header style="background:rgb(165, 187, 210);position:relative;height:60px;">
                 <h1 style="color:#fff;margin:10px 10px;">海洋监测中心数管平台</h1>
                 <el-menu 
-                  :default-active="activeIndex" 
-                  class="el-menu-demo" 
-                  mode="horizontal" 
-                  background-color="rgb(165, 187, 210)"
-                  text-color="#fff"
-                  active-text-color="#ffd04b"
-                  style="position:absolute;right:200px;bottom:0px;border-bottom: solid 1px #e6e6e600;">
-                    <el-menu-item index="1">数据管理</el-menu-item>
+                    :default-active="activeIndex" 
+                    class="el-menu-demo" 
+                    mode="horizontal" 
+                    background-color="rgb(165, 187, 210)"
+                    text-color="#fff"
+                    active-text-color="#ffd04b"
+                    style="position:absolute;right:200px;bottom:0px;border-bottom: solid 1px #e6e6e600;" router>
+                    <el-menu-item index="/datamanage">数据管理</el-menu-item>
                     <el-menu-item index="2">测试1</el-menu-item>
                     <el-menu-item index="3">测试2</el-menu-item>
                 </el-menu>
                 <el-dropdown class="user_img">
-                   <span style="display:flex;align-items:center;cursor:pointer;padding: 5px;box-shadow: 5px 5px 5px #000;background: rgb(189, 163, 163);border-radius: 4px;" class="el-dropdown-link">
-                       <img src="../assets/img/518153.png">
-                       <span>管理员</span>
-                   </span>
-                   <el-dropdown-menu slot="dropdown">
-                       <el-dropdown-item>退出</el-dropdown-item>
-                       <el-dropdown-item>设置</el-dropdown-item>
-                   </el-dropdown-menu>
+                    <span style="display:flex;align-items:center;cursor:pointer;padding: 5px;box-shadow: 5px 5px 5px #000;background: rgb(189, 163, 163);border-radius: 4px;" class="el-dropdown-link">
+                        <img src="../assets/img/518153.png">
+                        <span>管理员</span>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>退出</el-dropdown-item>
+                        <el-dropdown-item>设置</el-dropdown-item>
+                    </el-dropdown-menu>
                 </el-dropdown>
             </el-header>
-            <el-container style="padding:5px 0px;">
-                <el-aside style="width:200px;border:1px solid rgb(230, 207, 207);" class="split split-horizontal" id="one">
-                    <el-tree 
-                      :data="data" 
-                      :props="defaultProps"
-                      :render-content="renderContent"
-                      >
-                      <span class="custom-tree-node" slot-scope="{node,data}">
-                          <span>{{node.label}}</span>
-                          <span>
-                              <el-button 
-                                type="text"
-                                size="mini"
-                                @click="() => append(data)">
-                                Append
-                              </el-button>
-                              <el-button 
-                                type="text"
-                                size="mini"
-                                @click="() => append(node,data)">
-                                Delete
-                              </el-button>
-                          </span>
-                      </span>  
-                    </el-tree>
-                </el-aside>
-                <el-main style="border:1px solid rgb(230, 207, 207);" class="split split-horizontal" id="two">
-                    <!--地图div-->
-                    <div class="map_div" id="mapDiv">
-                    </div>
-                </el-main>
-            </el-container>
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
         </el-container>
     </div>
 </template>
 <script>
-import {baseImgPath} from '@/config/env'
-import Split from 'split.js'
 
 export default {
     data(){
         return {
-            activeIndex:'1',
-            defaultProps: {
-                children: 'children',
-                label: 'label'
-            },
-            data:[{
-                label:'一级1',
-                className:'folder-icon',
-                children:[{
-                    label:'二级1-1',
-                    className:'folder-icon',
-                    children:[{
-                        label:'三级1-1-1',
-                        className:'folder-icon'
-                    }]
-                },{
-                    label:'一级2',
-                    className:'folder-icon',
-                    children:[{
-                        label:'二级2-1',
-                        className:'folder-icon',
-                        children:[{
-                            label:'三级2-1-1',
-                            className:'folder-icon'
-                        }]
-                    },{
-                        label:'二级2-2',
-                        className:'folder-icon',
-                        children:[{
-                            label:'三级2-2-1',
-                            className:'folder-icon'
-                        }]
-                    }]
-                }]
-            }]
+            activeIndex:'/datamanage'
         }
-    },
-    methods:{
-        renderContent(h,{node,data,store}){
-           return (
-              <span class="custom-tree-node">
-                <i class={data.className}></i>
-                <span style="margin-left:5px;">{node.label}</span>
-              </span>
-              );
-        }
-
-    },
-    mounted(){
-        Split(['#one', '#two'], {
-            sizes: [25, 75],
-            minSize: 200
-        });
-    },
+    }
 }
 </script>
 <style>
