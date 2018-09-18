@@ -32,7 +32,25 @@
                       :data="data" 
                       :props="defaultProps"
                       :render-content="renderContent"
-                      ></el-tree>
+                      >
+                      <span class="custom-tree-node" slot-scope="{node,data}">
+                          <span>{{node.label}}</span>
+                          <span>
+                              <el-button 
+                                type="text"
+                                size="mini"
+                                @click="() => append(data)">
+                                Append
+                              </el-button>
+                              <el-button 
+                                type="text"
+                                size="mini"
+                                @click="() => append(node,data)">
+                                Delete
+                              </el-button>
+                          </span>
+                      </span>  
+                    </el-tree>
                 </el-aside>
                 <el-main style="border:1px solid rgb(230, 207, 207);" class="split split-horizontal" id="two">
                     <!--地图div-->
