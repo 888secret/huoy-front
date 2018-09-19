@@ -1,0 +1,79 @@
+-- Create table
+create table TB_FILE_SYSTEM
+(
+  id          VARCHAR2(100) not null,
+  parent_id   VARCHAR2(100),
+  file_path   VARCHAR2(500),
+  file_name   VARCHAR2(100),
+  is_file     CHAR(1),
+  user_id     VARCHAR2(100),
+  project_id  VARCHAR2(100),
+  is_delete   CHAR(1),
+  is_lock     CHAR(1),
+  file_type   NVARCHAR2(50),
+  file_size   NUMBER,
+  node_name   VARCHAR2(200),
+  create_time DATE,
+  folder_name VARCHAR2(200),
+  is_edit     CHAR(1)
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table TB_FILE_SYSTEM
+  is '文件系统表';
+-- Add comments to the columns 
+comment on column TB_FILE_SYSTEM.id
+  is '主键节点ID';
+comment on column TB_FILE_SYSTEM.parent_id
+  is '父节点ID';
+comment on column TB_FILE_SYSTEM.file_path
+  is '文件路径';
+comment on column TB_FILE_SYSTEM.file_name
+  is '文件名称';
+comment on column TB_FILE_SYSTEM.is_file
+  is '是否是文件';
+comment on column TB_FILE_SYSTEM.user_id
+  is '用户ID';
+comment on column TB_FILE_SYSTEM.project_id
+  is '项目ID';
+comment on column TB_FILE_SYSTEM.is_delete
+  is '是否删除';
+comment on column TB_FILE_SYSTEM.is_lock
+  is '是否锁定';
+comment on column TB_FILE_SYSTEM.file_type
+  is '文件类型';
+comment on column TB_FILE_SYSTEM.file_size
+  is '文件大小';
+comment on column TB_FILE_SYSTEM.node_name
+  is '节点名称';
+comment on column TB_FILE_SYSTEM.create_time
+  is '创建时间';
+comment on column TB_FILE_SYSTEM.folder_name
+  is '文件夹名称';
+comment on column TB_FILE_SYSTEM.is_edit
+  is '是否可编辑';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table TB_FILE_SYSTEM
+  add constraint PRIMARY_ID primary key (ID)
+  using index 
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );

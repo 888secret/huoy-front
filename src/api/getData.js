@@ -240,3 +240,11 @@ export const getTableList = data => fetch('/generator/list',data);
  * 生成代码接口
  */
 export const genCode = data => fetch('/generator/genCode',data);
+/**
+ * 查询文件系统树
+ */
+export const selectTree = (type) => fetch('/fileSystem/selectTree',type);
+/**
+ * 新增节点
+ */
+export const saveNode = (data,type) => fetch('/fileSystem/save',data,type);

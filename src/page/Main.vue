@@ -4,7 +4,7 @@
             <el-header style="background:rgb(165, 187, 210);position:relative;height:60px;">
                 <h1 style="color:#fff;margin:10px 10px;">海洋监测中心数管平台</h1>
                 <el-menu 
-                    :default-active="activeIndex" 
+                    :default-active="$route.path" 
                     class="el-menu-demo" 
                     mode="horizontal" 
                     background-color="rgb(165, 187, 210)"
@@ -12,7 +12,7 @@
                     active-text-color="#ffd04b"
                     style="position:absolute;right:200px;bottom:0px;border-bottom: solid 1px #e6e6e600;" router>
                     <el-menu-item index="/datamanage">数据管理</el-menu-item>
-                    <el-menu-item index="2">测试1</el-menu-item>
+                    <el-menu-item index="/generator">代码自动生成</el-menu-item>
                     <el-menu-item index="3">测试2</el-menu-item>
                 </el-menu>
                 <el-dropdown class="user_img">
@@ -37,7 +37,7 @@
 export default {
     data(){
         return {
-            activeIndex:'/datamanage'
+            
         }
     }
 }

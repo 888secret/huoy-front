@@ -19,6 +19,7 @@
 <script>
 import {baseImgPath} from '@/config/env'
 import Split from 'split.js'
+
 import Tree from '../components/Tree'
 export default {
     data(){

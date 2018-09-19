@@ -34,16 +34,17 @@
 <script>
 import TreeRender from '../components/TreeRender'
 import api from '@/api/api'
+import {selectTree,saveNode} from '@/api/getData'
 export default {
     data(){
         return {
             maxexpandId: api.maxexpandId,//新增节点开始id
             non_maxexpandId: api.maxexpandId,//新增节点开始id（不更改）
             isLoadingTree: false,//是否加载节点树
-            setTree: api.treelist,//节点加载数据
+            setTree: null,//节点加载数据
             defaultProps:{
-                children: 'children',
-                label:'name'
+                children: 'childList',
+                label:'nodeName'
             },
             isExpand:false,//是否全部展开
             tooltipMsg:'全部展开',
@@ -51,7 +52,15 @@ export default {
         }
     },
     mounted(){
+        
+    },
+    created(){
         this.initExpand();
+
+    },
+    activated(){
+        this.initExpand();
+
     },
     watch:{
         filterText(val){
@@ -63,10 +72,18 @@ export default {
             if(!value) return true;
             return data.name.indexOf(value)!==-1;
         },
-        initExpand(){
+        async initExpand(){
             /* this.setTree.map((a) => {
                 this.allExpandKeys.push(a.id);
             }); */
+            const res=await selectTree('POST');
+            if(res.code==0){
+                this.setTree=res.data;
+
+                this.$message.success('查询树成功');
+            }else{
+                this.$message.error('查询树失败');
+            }
             this.isLoadingTree=true;
         },
         handleNodeClick(d,n,s){//点击节点
@@ -85,17 +102,18 @@ export default {
                 on: {
                     nodeAdd: ((s,d,n) => that.handleAdd(s,d,n)),
                     nodeEdit: ((s,d,n) => that.handleEdit(s,d,n)),
-                    nodeDel: ((s,d,n) => that.handleDelete(s,d,n))
+                    nodeDel: ((s,d,n) => that.handleDelete(s,d,n)),
+                    nodeSave:((s,d,n) => that.handleSave(s,d,n))
                 }
             });
         },
         handleAddTop(){
             this.setTree.push({
-                id: ++this.maxexpandId,
-                name: '新增节点',
-                pid: '',
-                isEdit: false,
-                children: []
+                parentId:'0',
+                nodeName:'新增节点',
+                folderName:'新增节点',
+                isEdit:'1',
+                childList:[]
             })
         },
         handleAdd(s,d,n){
@@ -105,12 +123,12 @@ export default {
                 return false;
             }
             //添加数据
-            d.children.push({
-                id: ++this.maxexpandId,
-                name: '新增节点',
-                pid: d.id,
-                isEdit: false,
-                children: []
+            d.childList.push({
+                parentId:d.id,
+                nodeName:'新增节点',
+                folderName:'新增节点',
+                isEdit:'1',
+                childList:[]
             });
             //展开节点
             if(!n.expanded){
@@ -154,6 +172,15 @@ export default {
                 //判断是否新增
                 d.id > this.non_maxexpandId?delNode():isDel()
             }
+        },
+        async handleSave(s,d,n){
+            const res=await saveNode(d,'POST');
+            if(res.code==0){
+                this.$message("保存节点成功")
+            }else{
+                this.$message.error('保存节点失败')
+            }
+            this.initExpand();
         },
         handleExpand(){
             if(this.isExpand){
@@ -222,5 +249,8 @@ export default {
 .expand-tree .is-current>.el-tree-node__content .tree-label{
     font-weight:600;
     white-space:normal;
+}
+.expand-tree .el-tree-node__content{
+    height:30px;
 }
 </style>

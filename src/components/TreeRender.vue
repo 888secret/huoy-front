@@ -1,19 +1,22 @@
 <template>
     <span class="tree-expand">
-        <span class="tree-label" v-show="DATA.isEdit">
+        
+        <span class="tree-label">
+           <img src="../assets/img/1084345.png">
+        </span>
+        <span class="tree-label" v-show="DATA.isEdit=='1'?true:false">
             <el-input class="edit" size="mini" autofocus
-              v-model="DATA.name"
+              v-model="DATA.nodeName"
               :ref="'treeInput'+DATA.id"
               @click.stop.native="nodeEditFocus"
-              @blur.stop="nodeEditPass(STORE,DATA,NODE)"
               @keyup.enter.stop.native="nodeEditPass(STORE,DATA,NODE)"></el-input>
+            <i class="el-icon-check" @click="nodeEditPass(STORE,DATA,NODE)"></i>
         </span>
-        <span v-show="!DATA.isEdit"
+        <span v-show="DATA.isEdit=='0'?true:false"
           :class="[DATA.id > maxexpandId?'tree-new tree-label':'tree-label']">
-          <img src="../assets/img/1084345.png">
-          <span>{{DATA.name}}</span>
+          <span>{{DATA.nodeName}}</span>
         </span>
-        <span class="tree-btn" v-show="!DATA.isEdit">
+        <span class="tree-btn" v-show="DATA.isEdit=='0'?true:false">
             <i class="el-icon-plus" @click.stop="nodeAdd(STORE,DATA,NODE)"></i>
             <i class="el-icon-edit" @click.stop="nodeEdit(STORE,DATA,NODE)"></i>
             <i class="el-icon-delete" @click.stop="nodeDel(STORE,DATA,NODE)"></i>
@@ -30,7 +33,7 @@ export default {
             this.$emit('nodeAdd',s,d,n)
         },
         nodeEdit(s,d,n){
-            d.isEdit=true;
+            d.isEdit='1';
             this.$nextTick(()=>{
                 this.$refs['treeInput'+d.id].$refs.input.focus();
             })
@@ -40,7 +43,8 @@ export default {
             this.$emit('nodeDel',s,d,n);
         },
         nodeEditPass(s,d,n){
-            d.isEdit=false;
+            d.isEdit='0';
+            this.$emit('nodeSave',s,d,n)
         },
         nodeEditFocus(){
 
@@ -51,6 +55,8 @@ export default {
 <style>
 .tree-expand{
     overflow:hidden;
+    display: flex;
+    align-items: center;
 }
 .tree-expand .tree-label.tree-new{
     font-weight:600;

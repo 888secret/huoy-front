@@ -100,6 +100,7 @@ const generator = r => require.ensure([], () => r(require('@/page/generator')), 
 ] */
 const main = r => require.ensure([], () => r(require('@/page/Main')), 'main');
 const datamanage = r => require.ensure([], () => r(require('@/page/DataManage')), 'datamanage');
+const generator = r => require.ensure([], () => r(require('@/page/generator')),'generator');
 const routes = [
 	{
 		path: '/',
@@ -108,6 +109,9 @@ const routes = [
 		children:[{
 			path:'datamanage',
 			component: datamanage
+		},{
+			path:'generator',
+			component: generator
 		}]
 	}]
 export default new Router({

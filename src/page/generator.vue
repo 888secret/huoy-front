@@ -1,6 +1,6 @@
 <template>
     <div>
-        <head-top></head-top>
+        
         <section>
             <header class="section_title">数据库表列表</header>
             <div class="search-content">
@@ -70,6 +70,9 @@
                   <el-form-item label="输出路径">
                       <el-input v-model="form.outputDir"></el-input>
                   </el-form-item>
+                  <el-form-item label="父模块名称">
+                      <el-input v-model="form.parent"></el-input>
+                  </el-form-item>
                   <el-form-item label="模块名称">
                       <el-input v-model="form.moduleName"></el-input>
                   </el-form-item>
@@ -116,7 +119,6 @@
 </template>
 
 <script>
-import headTop from '../components/headTop'
 import {genCode,getTableCount,getTableList} from '@/api/getData'
 export default {
     data(){
@@ -156,7 +158,7 @@ export default {
         }
     },
     components:{
-        headTop,
+        
     },
     methods:{
         async getOrders(){
@@ -206,14 +208,12 @@ export default {
             this.form.tableName=arr.join(',');
         },
         async createCode(){
-            try{
-                await genCode(this.form);
+    
+            const res=await genCode(this.form);
+            if(res.code==0)
                 this.$message('生成代码成功！');
-                
-            }catch(e){
-                this.$message.error('获取数据失败！');
-            }
-           
+            else
+                this.$message.error('生成代码报错');
             this.dialogVisible=false;
         }
     },
