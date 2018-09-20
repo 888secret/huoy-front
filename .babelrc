@@ -14,5 +14,5 @@
   "presets": [
     "es2015"
   ],
-  "plugins": ["transform-vue-jsx"]
+  "plugins": ["transform-vue-jsx","transform-runtime","transform-object-rest-spread"]
 }

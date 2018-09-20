@@ -2,7 +2,7 @@
     <span class="tree-expand">
         
         <span class="tree-label">
-           <img src="../assets/img/1084345.png">
+           <img src="../../static/img/1084345.png">
         </span>
         <span class="tree-label" v-show="DATA.isEdit=='1'?true:false">
             <el-input class="edit" size="mini" autofocus
@@ -13,13 +13,14 @@
             <i class="el-icon-check" @click="nodeEditPass(STORE,DATA,NODE)"></i>
         </span>
         <span v-show="DATA.isEdit=='0'?true:false"
-          :class="[DATA.id > maxexpandId?'tree-new tree-label':'tree-label']">
+          class="tree-label">
           <span>{{DATA.nodeName}}</span>
         </span>
         <span class="tree-btn" v-show="DATA.isEdit=='0'?true:false">
             <i class="el-icon-plus" @click.stop="nodeAdd(STORE,DATA,NODE)"></i>
             <i class="el-icon-edit" @click.stop="nodeEdit(STORE,DATA,NODE)"></i>
             <i class="el-icon-delete" @click.stop="nodeDel(STORE,DATA,NODE)"></i>
+            <i class="el-icon-upload" @click.stop="fileUpload(STORE,DATA,NODE)"></i>
         </span>
     </span>
 </template>
@@ -27,7 +28,7 @@
 <script>
 export default {
     name:'treeExpand',
-    props:['NODE','DATA','STORE','maxexpandId'],
+    props:['NODE','DATA','STORE'],
     methods:{
         nodeAdd(s,d,n){
             this.$emit('nodeAdd',s,d,n)
@@ -48,6 +49,9 @@ export default {
         },
         nodeEditFocus(){
 
+        },
+        fileUpload(s,d,n){
+            this.$emit('fileUpload',s,d,n);
         }
     }
 }

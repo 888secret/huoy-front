@@ -248,3 +248,8 @@ export const selectTree = (type) => fetch('/fileSystem/selectTree',type);
  * 新增节点
  */
 export const saveNode = (data,type) => fetch('/fileSystem/save',data,type);
+/**
+ * 根据文件夹id查询文件列表
+ */
+export const getFileListByFolderId = (data) => fetch('/file/getFileListByFolderId',data);
+

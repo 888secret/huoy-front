@@ -74,7 +74,6 @@ export default {
     height: 16px;
     background-size: 16px 16px;
     float: left;
-    background-image: url('../assets/img/1084345.png')
 }
 .custom-tree-node{
     display: flex;

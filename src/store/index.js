@@ -8,11 +8,24 @@ const state = {
 	adminInfo: {
 		avatar: 'default.jpg'
 	},
+	treeList:[],//tree数据
+	selectNode:{},//选中的树节点数据
+	fileList:[]//文件列表
+
 }
 
 const mutations = {
 	saveAdminInfo(state, adminInfo){
 		state.adminInfo = adminInfo;
+	},
+	setTreeList(state,list){
+		state.treeList=list;
+	},
+	setSelectNode(state,node){
+		state.selectNode=node;
+	},
+	setFileList(state,list){
+		state.fileList=list;
 	}
 }
 

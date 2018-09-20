@@ -17,14 +17,15 @@
         <div  class="expand">
             <el-tree ref="expandMenuList" class="expand-tree"
                     v-if="isLoadingTree"
-                    :data="setTree"
+                    :data="treeList"
                     node-key="id"
                     highlight-current
                     :props="defaultProps"
                     :expand-on-click-node="false"
                     :render-content="renderContent"
                     :filter-node-method="filterNode"
-                    :default-expand-all="false"
+                    :default-expand-all="true"
+                    :default-expanded-keys="defaultExpandedKeys"
                     @node-click="handleNodeClick"></el-tree>
         </div>
         
@@ -35,21 +36,24 @@
 import TreeRender from '../components/TreeRender'
 import api from '@/api/api'
 import {selectTree,saveNode} from '@/api/getData'
+import {mapState,mapMutations} from 'vuex'
 export default {
     data(){
         return {
-            maxexpandId: api.maxexpandId,//新增节点开始id
-            non_maxexpandId: api.maxexpandId,//新增节点开始id（不更改）
             isLoadingTree: false,//是否加载节点树
-            setTree: null,//节点加载数据
             defaultProps:{
                 children: 'childList',
                 label:'nodeName'
             },
             isExpand:false,//是否全部展开
             tooltipMsg:'全部展开',
-            filterText:''
+            filterText:'',
+            defaultExpandedKeys:[],//默认展开的节点
+            
         }
+    },
+    computed:{
+        ...mapState(['treeList','selectNode'])
     },
     mounted(){
         
@@ -68,6 +72,7 @@ export default {
         }
     },
     methods:{
+        ...mapMutations(['setTreeList','setSelectNode']),
         filterNode(value,data){
             if(!value) return true;
             return data.name.indexOf(value)!==-1;
@@ -78,8 +83,7 @@ export default {
             }); */
             const res=await selectTree('POST');
             if(res.code==0){
-                this.setTree=res.data;
-
+                this.setTreeList(res.data);
                 this.$message.success('查询树成功');
             }else{
                 this.$message.error('查询树失败');
@@ -87,7 +91,8 @@ export default {
             this.isLoadingTree=true;
         },
         handleNodeClick(d,n,s){//点击节点
-            d.isEdit=false;//放弃编辑状态
+            //d.isEdit='0';//放弃编辑状态
+            this.$emit('nodeClick',d);
         },
         renderContent(h,{node,data,store}){
             //加载节点
@@ -96,21 +101,24 @@ export default {
                 props:{
                     DATA: data,
                     NODE: node,
-                    STORE: store,
-                    maxexpandId: that.non_maxexpandId
+                    STORE: store
                 },
                 on: {
                     nodeAdd: ((s,d,n) => that.handleAdd(s,d,n)),
                     nodeEdit: ((s,d,n) => that.handleEdit(s,d,n)),
                     nodeDel: ((s,d,n) => that.handleDelete(s,d,n)),
-                    nodeSave:((s,d,n) => that.handleSave(s,d,n))
+                    nodeSave:((s,d,n) => that.handleSave(s,d,n)),
+                    fileUpload:((s,d,n) => that.fileUpload(s,d,n))
                 }
             });
         },
         handleAddTop(){
             this.setTree.push({
                 parentId:'0',
+                userId:'',
+                projectId:'',
                 nodeName:'新增节点',
+                createTime:new Date(),
                 folderName:'新增节点',
                 isEdit:'1',
                 childList:[]
@@ -125,8 +133,11 @@ export default {
             //添加数据
             d.childList.push({
                 parentId:d.id,
+                userId:'',
+                projectId:'',
                 nodeName:'新增节点',
-                folderName:'新增节点',
+                createTime:new Date(),
+                folderName:'',
                 isEdit:'1',
                 childList:[]
             });
@@ -174,6 +185,7 @@ export default {
             }
         },
         async handleSave(s,d,n){
+            d.folderName=d.nodeName;
             const res=await saveNode(d,'POST');
             if(res.code==0){
                 this.$message("保存节点成功")
@@ -197,6 +209,11 @@ export default {
                 }
                 this.tooltipMsg="全部收起";
             }
+        },
+        fileUpload(s,d,n){
+            //文件上传
+            this.setSelectNode(d);
+            this.$emit('showDialog',d);
         }
     }
 }
