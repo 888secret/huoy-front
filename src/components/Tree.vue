@@ -53,7 +53,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['treeList','selectNode'])
+        ...mapState(['treeList','selectNode','folderId'])
     },
     mounted(){
         
@@ -72,7 +72,7 @@ export default {
         }
     },
     methods:{
-        ...mapMutations(['setTreeList','setSelectNode']),
+        ...mapMutations(['setTreeList','setSelectNode','setFolderId']),
         filterNode(value,data){
             if(!value) return true;
             return data.name.indexOf(value)!==-1;
@@ -92,7 +92,7 @@ export default {
         },
         handleNodeClick(d,n,s){//点击节点
             //d.isEdit='0';//放弃编辑状态
-            this.$emit('nodeClick',d);
+            this.setSelectNode(d);
         },
         renderContent(h,{node,data,store}){
             //加载节点
@@ -212,8 +212,8 @@ export default {
         },
         fileUpload(s,d,n){
             //文件上传
-            this.setSelectNode(d);
-            this.$emit('showDialog',d);
+            this.setFolderId(d.id);
+            this.$emit('showDialog');
         }
     }
 }

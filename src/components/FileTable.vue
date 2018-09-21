@@ -42,8 +42,6 @@ import {getFileListByFolderId} from '@/api/getData'
 export default {
     data(){
         return {
-            tableData:[],
-            ...mapState(['selectNode']),
             fileList:[]
 
         }
@@ -53,14 +51,18 @@ export default {
             this.initTable();
         }
     },
+
+    computed:{
+        ...mapState(['selectNode']),
+    },
     methods:{
-        ...mapMutations(['setFileList']),
-        async initTable(d){
+        async initTable(){
             const res=await getFileListByFolderId({
-                folderId:d.id
+                folderId:this.selectNode.id
             });
+            alert(JSON.stringify(res))
             if(res.code==0){
-                this.$messgae("查询文件列表成功");
+                this.$message("查询文件列表成功");
                 this.fileList=res.data;
             }else{
                 this.$message.error("查询文件列表失败"+JSON.stringify(res));

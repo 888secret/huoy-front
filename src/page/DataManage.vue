@@ -7,7 +7,7 @@
                 :render-content="renderContent"
                 >
             </el-tree> -->
-            <Tree @showDialog="showDialog" @nodeClick="nodeClick"></Tree>
+            <Tree @showDialog="showDialog"></Tree>
         </el-aside>
         <el-main style="border:1px solid rgb(230, 207, 207);" class="split split-horizontal" id="two">
             <!--地图div-->
@@ -19,7 +19,7 @@
               ref="upload"
               :multiple="true"
               name="multipartfiles"
-              :data="selectNode"
+              :data="folderId"
               :action="uploadUrl"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
@@ -52,7 +52,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['treeList','selectNode'])
+        ...mapState(['treeList','selectNode','folderId'])
     },
     methods:{
         submitUpload(){
@@ -65,8 +65,8 @@ export default {
         handlePreview(file){
 
         },
-        showDialog(d){
-
+        showDialog(){
+           this.$refs.fileTable.fileList=[];
            this.dialogFormVisible=true;
         },
         beforeAVatarUpload(file){
@@ -83,16 +83,13 @@ export default {
         },
         handleError(err,file,fileList){
            this.$message.error("文件上传失败"+err);
-        },
-        nodeClick(d){
-            this.$refs.fileTable.initTable(d);
         }
 
     },
     mounted(){
         Split(['#one', '#two'], {
-            sizes: [35, 65],
-            minSize: 400
+            sizes: [15, 85],
+            minSize: 200
         });
     },
     components:{

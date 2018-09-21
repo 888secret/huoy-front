@@ -10,7 +10,7 @@ const state = {
 	},
 	treeList:[],//tree数据
 	selectNode:{},//选中的树节点数据
-	fileList:[]//文件列表
+	folderId:''
 
 }
 
@@ -24,8 +24,8 @@ const mutations = {
 	setSelectNode(state,node){
 		state.selectNode=node;
 	},
-	setFileList(state,list){
-		state.fileList=list;
+	setFolderId(state,id){
+		state.folderId=id;
 	}
 }
 
