@@ -19,7 +19,7 @@
               ref="upload"
               :multiple="true"
               name="multipartfiles"
-              :data="folderId"
+              :data="params"
               :action="uploadUrl"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
@@ -48,6 +48,9 @@ export default {
             fileList:[],
             dialogFormVisible:false,
             uploadUrl:baseUrl+'/file/upload',
+            params:{
+                folderId:""
+            }
 
         }
     },
@@ -56,7 +59,7 @@ export default {
     },
     methods:{
         submitUpload(){
-            
+            this.params.folderId=this.folderId;
             this.$refs.upload.submit();
         },
         handleRemove(file,fileList){
