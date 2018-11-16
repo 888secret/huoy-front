@@ -1,0 +1,46 @@
+export const projectFileList=[
+    {
+        fileAssort:'事前',
+        sort:1,
+        createTime:'2018-09-10',
+        fileName:'宝安项目专家评审材料.docx',
+        fileType:'txt',
+        isAddMap:false
+    },{
+        fileAssort:'事中',
+        sort:2,
+        createTime:'2018-09-12',
+        fileName:'宝安项目审批材料.docx',
+        fileType:'docx',
+        isAddMap:false
+    },{
+        fileAssort:'事后',
+        sort:3,
+        createTime:'2018-07-20',
+        fileName:'后评估材料.docx',
+        fileType:'docx',
+        isAddMap:false
+    },{
+        fileAssort:'事前',
+        sort:1,
+        createTime:'2018-10-04',
+        fileName:'文件3.xlsx',
+        fileType:'xlsx',
+        isAddMap:false
+    },{
+        fileAssort:'事中',
+        sort:2,
+        createTime:'2018-07-10',
+        fileName:'宝安项目验收材料.docx',
+        fileType:'docx',
+        isAddMap:false
+    },{
+        fileAssort:'事后',
+        sort:3,
+        createTime:'2018-07-20',
+        fileName:'疑点疑区调查.docx',
+        fileType:'docx',
+        isAddMap:false
+    }
+]
+

@@ -252,4 +252,27 @@ export const saveNode = (data,type) => fetch('/fileSystem/save',data,type);
  * 根据文件夹id查询文件列表
  */
 export const getFileListByFolderId = (data) => fetch('/file/getFileListByFolderId',data);
-
+/**
+ * 分词匹配查询
+ */
+export const getFileListByLike = (data) => fetch('/file/like',data);
+/**
+ * 根据id删除文件
+ */
+export const deleteFileById = (data,type) => fetch('/file/delete',data,type);
+/**
+ * 查询所有shp文件列表
+ */
+export const getShpFileList = () => fetch('/file/getShpFileList');
+/**
+ * 根据shp文件id将shp文件转换成geojson并返回转换文件路径
+ */
+export const getJSONFromShp = (data) => fetch('/file/getJSONFromShp',data);
+/**
+ * 读取geojson文件
+ */
+export const getGeoJSONFile = (url) => fetch(url);
+ /**
+  * 根据id删除节点
+*/
+export const deleteNodeById = (data,type) => fetch('/fileSystem/delete',data);

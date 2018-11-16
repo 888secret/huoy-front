@@ -35,7 +35,7 @@
 <script>
 import TreeRender from '../components/TreeRender'
 import api from '@/api/api'
-import {selectTree,saveNode} from '@/api/getData'
+import {selectTree,saveNode,deleteNodeById} from '@/api/getData'
 import {mapState,mapMutations} from 'vuex'
 export default {
     data(){
@@ -113,7 +113,7 @@ export default {
             });
         },
         handleAddTop(){
-            this.setTree.push({
+            this.treeList.push({
                 parentId:'0',
                 userId:'',
                 projectId:'',
@@ -149,7 +149,7 @@ export default {
         handleEdit(s,d,n){
 
         },
-        handleDelete(s,d,n){
+        async handleDelete(s,d,n){
             //删除节点
             let that=this;
             //有子级的不删除
@@ -158,16 +158,15 @@ export default {
                 return false;
             }else{
                 //新增节点直接删除，否则要询问是否删除
-                let delNode = () => {
-                    let list=n.parent.data.children || n.parent.data,//节点同级数据
-                      _index=99999;//要删除的index
-                    list.map((c,i) => {
-                        if(d.id==c.id){
-                            _index=i;
-                        }
-                    })
-                    let k=list.splice(_index,1);
-                    this.$message.success("删除成功");
+                let delNode = async() => {
+                    debugger
+                    //根据id删除节点
+                    const res=await deleteNodeById({id:d.id});
+                    if(res.code==0){
+                        this.setTreeList(res.data);
+                        this.$message.success("删除成功");
+                    }
+                    
                 }
                 let isDel = () => {
                     that.$confirm("是否删除此节点？","提示",{
